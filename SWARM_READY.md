@@ -21,7 +21,7 @@ If a `swarm-ready` skill is installed, load it. Otherwise execute the documented
 
 ## Repository starting point
 
-Read: [README.md](README.md).
+Read the [README](README.md), [Streamlit entry](streamlit_app.py), and [market-data adapter](data_provider.py). The adapter uses Alpha Vantage; references to Polygon.io in older design documents are historical. This handoff is for documentation and offline checks only.
 
 Continue an existing approved issue or a clearly scoped user objective after inspecting the source map below. If none is selected, return the smallest useful improvement and its verifier as the handoff; do not begin a portfolio-wide rewrite.
 
@@ -41,7 +41,15 @@ The base above is an inspection snapshot, not a permanent working branch. Refres
 
 ## Verification starting point
 
-No executable acceptance command was established by this bounded source inspection. Read `README.md` and record the narrowest existing check before implementation. Do not invent a `test` command or infer that the repository has no tests from this gap. For a documentation-only task, check links, factual source anchors and whitespace; do not build unrelated application code.
+For this documentation slice, check that the README links to this handoff, its provider claims match the adapter and sidebar, and no conflict markers remain in the README. To smoke-test the in-memory portfolio with Python and NumPy already installed, run from the repository root:
+
+```sh
+python -B -m unittest -v test_portfolio
+```
+
+Expect four tests to pass for initialization, adding and removing positions, updating positions, and totaling position values. The suite uses caller-supplied prices; it does not import the provider or require credentials.
+
+Do not substitute the full suite or a dashboard/API launch for this check. In particular, [provider tests](test_data_provider.py) predate some current behavior: the missing-key test expects construction to raise, but the adapter allows construction with no keys and rejects a later fetch. Keep that separate from documentation acceptance; this handoff does not validate provider behavior, financial model accuracy, or live readiness.
 
 ## Required handoff result
 

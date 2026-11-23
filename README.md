@@ -4,6 +4,9 @@
 
 This project provides an advanced, interactive dashboard for pricing financial options using a variety of mathematical models. It integrates real-time financial data and sophisticated volatility analysis to deliver accurate and comprehensive pricing information. The application is built with Streamlit and features a modular architecture that is both scalable and easy to maintain.
 
+For bounded agent work and checks that do not use market data, start with the
+[offline verification handoff](SWARM_READY.md#verification-starting-point).
+
 ## Features
 
 - **Multiple Pricing Models:**
@@ -13,7 +16,7 @@ This project provides an advanced, interactive dashboard for pricing financial o
   - **Heston Model:** A stochastic volatility model that captures the volatility smile.
   - **Merton Jump-Diffusion Model:** Accounts for sudden, significant price jumps.
 - **Real-Time Data Integration:**
-  - Fetches the latest stock prices using the **Polygon.io API**.
+  - Fetches stock prices using the **Alpha Vantage API** when configured.
 - **Advanced Volatility Analysis:**
   - **Historical Volatility:** Calculated from historical price data.
   - **Implied Volatility:** Extracted from market option prices.
@@ -29,24 +32,25 @@ This project provides an advanced, interactive dashboard for pricing financial o
 The application is designed with a modular and extensible architecture, consisting of the following key components:
 
 - **`streamlit_app.py`:** The main entry point for the user interface.
-- **`data_provider.py`:** Handles all interactions with the Polygon.io API for fetching financial data.
+- **`data_provider.py`:** Fetches market data from Alpha Vantage when configured.
 - **`volatility_engine.py`:** Centralizes the calculation of historical and implied volatility.
 - **`models.py` & `advanced_models.py`:** Contain the implementations of the various option pricing models.
 - **`base_model.py`:** Defines a common interface for all pricing models to ensure consistency.
 
-For a more detailed architectural overview, please see [`ADVANCED_MODELS_README.md`](ADVANCED_MODELS_README.md).
+For design context, see [`ADVANCED_MODELS_README.md`](ADVANCED_MODELS_README.md).
+Its provider diagram predates the current Alpha Vantage implementation.
 
 ## Prerequisites
 
 - Python 3.9+
-- A Polygon.io API key
+- An Alpha Vantage API key only for live data; offline checks do not require one.
 
 ## Setup and Installation
 
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/Kohnnn/option-pricing-model.git
+   git clone https://github.com/Kitkitkittt/option-pricing-model.git
    cd option-pricing-model
    ```
 2. **Create and activate a virtual environment:**
@@ -60,8 +64,8 @@ For a more detailed architectural overview, please see [`ADVANCED_MODELS_README.
    ```bash
    pip install -r requirements.txt
    ```
-4. **Set up your API key:**
-   You will need a Polygon.io API key to fetch market data. You can enter it directly in the application's sidebar.
+4. **For authorized live data only:** Configure an Alpha Vantage API key in the
+   dashboard sidebar. You can leave it blank for manual inputs.
 
 ## Running the Application
 
@@ -73,27 +77,25 @@ streamlit run streamlit_app.py
 
 ## How to Use the Dashboard
 
-1. **Enter Your API Key:**
+1. **Fetch Market Data (Optional):**
 
-   - In the sidebar, enter your Polygon.io API key to enable market data fetching.
-2. **Fetch Market Data (Optional):**
-
-   - Enter a stock ticker (e.g., `AAPL`) and click "Fetch Market Data" to get the latest price.
-3. **Select a Pricing Model:**
+   - With Alpha Vantage configured for live use, enter a stock ticker and select
+     “Fetch Market Data.” Use manual inputs instead for offline work.
+2. **Select a Pricing Model:**
 
    - Choose from the available models in the sidebar, such as Black-Scholes, Heston, or Merton Jump.
-4. **Configure Option Parameters:**
+3. **Configure Option Parameters:**
 
    - Adjust the **Spot Price**, **Strike Price**, **Risk-Free Rate**, and other relevant parameters.
-5. **Choose a Volatility Source:**
+4. **Choose a Volatility Source:**
 
    - **Manual Input:** Enter a volatility value directly.
    - **Historical Volatility:** Calculate volatility based on historical data.
    - **Implied Volatility:** Fetch implied volatility from the options chain.
-6. **Calculate the Option Price:**
+5. **Calculate the Option Price:**
 
    - Click the "Calculate Option Price" button to see the results, including the option price and a detailed analysis of the Greeks.
-7. **Analyze a Portfolio:**
+6. **Analyze a Portfolio:**
 
    - **Navigate to the "Portfolio Analysis" Tab:** Select the "Portfolio Analysis" tab from the main menu to access the portfolio management and risk analysis tools.
    - **Build Your Portfolio:**
@@ -113,13 +115,6 @@ streamlit run streamlit_app.py
 ## Contributing
 
 Contributions are welcome! If you would like to improve the application or add new features, please feel free to submit a Pull Request.
-
-<<<<<<< HEAD
-
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for more details.
-===============================================================================
 
 ## Deployment Instructions
 
